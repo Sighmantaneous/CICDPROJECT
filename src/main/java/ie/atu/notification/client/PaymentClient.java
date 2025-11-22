@@ -9,7 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "service-payment", url = "http://localhost:8081")
 public interface PaymentClient {
 
-    @GetMapping("/users/{id}")
 
-    UserDto getByUserId(@PathVariable("id") String id);
 }
