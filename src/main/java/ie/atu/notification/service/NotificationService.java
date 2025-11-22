@@ -2,6 +2,7 @@ package ie.atu.notification.service;
 
 import ie.atu.notification.client.PaymentClient;
 import ie.atu.notification.client.UserClient;
+import ie.atu.notification.dto.PaymentDto;
 import ie.atu.notification.dto.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +25,20 @@ public class NotificationService {
   public void WelcomeEmail(String userId) {
       UserDto user = userClient.getByUserId(userId);
 
+      String subject = "Welcome!";
+      String body = "Hi " + user.getName() + ", welcome to our platform!";
 
-      emailService.sendEmail(
-              user.getEmail(),
-              "Welcome!",
-              "Hi " + user.getName() + ", welcome to our platform!"
-      );
+      emailService.sendEmail(user.getEmail(), subject, body);
+  }
 
+  public void PaymentEmail(Long  paymentId) {
+      PaymentDto payment = paymentClient.getPaymentById(paymentId);
 
+      UserDto user = userClient.getByUserId(payment.getPaymentId().toString());
 
+      String subject = "Payment!";
+      String body = "Hi " + user.getName() + "Thanks for your payment" + "of"+ payment.getAmount();
+      emailService.sendEmail(user.getEmail(), subject, body);
   }
 
 
