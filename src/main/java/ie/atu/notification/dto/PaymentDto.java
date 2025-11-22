@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @Builder
 public class PaymentDto {
-
+    private Long id;
     private Long paymentId;
     private String amount;
     private String paymentMethod;
