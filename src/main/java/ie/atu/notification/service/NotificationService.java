@@ -40,6 +40,9 @@ public class NotificationService {
       String body = "Hi " + user.getName() + "Thanks for your payment" + "of"+ payment.getAmount();
       emailService.sendEmail(user.getEmail(), subject, body);
   }
+    public void DefaultEmail(String to, String subject, String message) {
+        emailService.sendEmail(to, subject, message);
+    }
 
 
 
