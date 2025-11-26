@@ -1,6 +1,7 @@
 package ie.atu.notification.service;
 
 
+import ie.atu.notification.client.PaymentClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +9,15 @@ import org.springframework.stereotype.Service;
 public class PdfService {
 
     @Autowired
-    NotificationService notificationService;
+    private final NotificationService notificationService;
+    @Autowired
+    private final PaymentClient paymentClient;
 
 
+    public PdfService(NotificationService notificationService, PaymentClient paymentClient) {
+        this.notificationService = notificationService;
+        this.paymentClient = paymentClient;
+    }
 
 
 }

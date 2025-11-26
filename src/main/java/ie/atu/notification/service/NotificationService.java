@@ -12,12 +12,14 @@ public class NotificationService {
   private final  UserClient userClient;
   private final PaymentClient paymentClient;
   private final EmailService emailService;
+  private final PdfService pdfService;
 
 
-  public NotificationService(UserClient userClient, PaymentClient paymentClient, EmailService emailService) {
+  public NotificationService(UserClient userClient, PaymentClient paymentClient, EmailService emailService,  PdfService pdfService) {
     this.userClient = userClient;
     this.paymentClient = paymentClient;
     this.emailService = emailService;
+    this.pdfService = pdfService;
   }
 
 
@@ -42,6 +44,13 @@ public class NotificationService {
   }
     public void DefaultEmail(String to, String subject, String message) {
         emailService.sendEmail(to, subject, message);
+    }
+
+
+    public void PdfGenerator(Long paymentId) {
+
+      PaymentDto payment = paymentClient.getPaymentById(paymentId);
+
     }
 
 

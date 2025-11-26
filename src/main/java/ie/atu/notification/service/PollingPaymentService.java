@@ -10,9 +10,9 @@ import java.util.List;
 
 public class PollingPaymentService {
 
-    private PaymentClient paymentClient;
-    private NotificationService notificationService;
-    private List<Long> newPayments = new ArrayList<>();
+    private final PaymentClient paymentClient;
+    private final NotificationService notificationService;
+    private final List<Long> newPayments = new ArrayList<>();
 
     public PollingPaymentService(PaymentClient paymentClient, NotificationService notificationService) {
         this.paymentClient = paymentClient;
