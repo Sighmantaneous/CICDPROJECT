@@ -49,7 +49,15 @@ public class NotificationService {
 
     public void PdfGenerator(Long paymentId) {
 
+      UserDto user = userClient.getByUserId((paymentId.toString()));
+
       PaymentDto payment = paymentClient.getPaymentById(paymentId);
+
+        System.out.println("Payment ID: " + paymentId +
+                "Name" +user.getName() +
+                "Payment amount " + payment.getAmount() +
+                "Payment Method" + payment.getPaymentMethod() +
+                "Currency" + payment.getCurrency());
 
     }
 
