@@ -4,10 +4,14 @@ import ie.atu.notification.client.PaymentClient;
 import ie.atu.notification.client.UserClient;
 import ie.atu.notification.dto.PaymentDto;
 import ie.atu.notification.dto.UserDto;
+import ie.atu.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService {
+
+     private final NotificationRepository repository;
+
 
   private final  UserClient userClient;
   private final PaymentClient paymentClient;
@@ -15,12 +19,21 @@ public class NotificationService {
   private final PdfService pdfService;
 
 
-  public NotificationService(UserClient userClient, PaymentClient paymentClient, EmailService emailService,  PdfService pdfService) {
+  public NotificationService(UserClient userClient, PaymentClient paymentClient, EmailService emailService,  PdfService pdfService, NotificationRepository repository) {
     this.userClient = userClient;
     this.paymentClient = paymentClient;
     this.emailService = emailService;
     this.pdfService = pdfService;
+    this.repository = repository;
   }
+
+
+
+
+
+
+
+
 
 
 
@@ -36,7 +49,7 @@ public class NotificationService {
   public void PaymentEmail(Long  paymentId) {
       PaymentDto payment = paymentClient.getPaymentById(paymentId);
 
-      UserDto user = userClient.getByUserId(payment.getPaymentId().toString());
+      UserDto user = userClient.getByUserId(payment.getUserId().toString());
 
       String subject = "Payment!";
       String body = "Hi " + user.getName() + "Thanks for your payment" + "of"+ payment.getAmount();

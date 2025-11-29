@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 public class PaymentDto {
     private Long id;
+    private Long userId;
     private Long paymentId;
     private String amount;
     private String paymentMethod;
