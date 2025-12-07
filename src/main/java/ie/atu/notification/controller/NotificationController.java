@@ -1,7 +1,10 @@
 package ie.atu.notification.controller;
 
+import ie.atu.notification.client.PaymentClient;
+import ie.atu.notification.dto.PaymentDto;
 import ie.atu.notification.model.Notification;
 import ie.atu.notification.service.NotificationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +16,11 @@ public class NotificationController {
 
 
     NotificationService notificationService;
+    PaymentClient paymentClient;
 
-    NotificationController(NotificationService notificationService) {
+     public NotificationController(NotificationService notificationService, PaymentClient paymentClient) {
         this.notificationService = notificationService;
+        this.paymentClient = paymentClient;
     }
 
  @GetMapping("/{id}")
@@ -43,6 +48,19 @@ public class NotificationController {
         notificationService.delete(id);
 
     }
+
+    @GetMapping("/api/notification/{id}")
+    public ResponseEntity<PaymentDto> getAllPayments(@PathVariable Long id) {
+
+         ResponseEntity<PaymentDto> response = paymentClient.fromPaymentId(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+
+
+
+
+    }
+
 
 
 
