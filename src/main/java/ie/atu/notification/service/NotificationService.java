@@ -66,7 +66,7 @@ public class NotificationService {
   public void PaymentEmail(Long  paymentId) {
       PaymentDto payment = paymentClient.getPaymentById(paymentId);
 
-      UserDto user = userClient.getByUserId(payment.getUserId().toString());
+      UserDto user = userClient.getByUserId(payment.getPaymentId().toString());
 
       String subject = "Payment!";
       String body = "Hi " + user.getName() + "Thanks for your payment" + "of"+ payment.getAmount();
@@ -77,19 +77,7 @@ public class NotificationService {
     }
 
 
-    public void PdfGenerator(Long paymentId) {
 
-      UserDto user = userClient.getByUserId((paymentId.toString()));
-
-      PaymentDto payment = paymentClient.getPaymentById(paymentId);
-
-        System.out.println("Payment ID: " + paymentId +
-                "Name" +user.getName() +
-                "Payment amount " + payment.getAmount() +
-                "Payment Method" + payment.getPaymentMethod() +
-                "Currency" + payment.getCurrency());
-
-    }
 
 
 

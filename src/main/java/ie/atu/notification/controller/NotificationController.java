@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notification")
@@ -49,8 +50,21 @@ public class NotificationController {
 
     }
 
-    @GetMapping("/api/notification/{id}")
-    public ResponseEntity<PaymentDto> getAllPayments(@PathVariable Long id) {
+    @DeleteMapping("/api/payment/{id}")
+    public ResponseEntity<PaymentDto> deletePayment(@PathVariable Long id) {
+         ResponseEntity<PaymentDto> response = paymentClient.delete(id);
+         return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+    }
+
+    @GetMapping("/payment/")
+    public ResponseEntity<List<PaymentDto>> getAllPayments() {
+
+         ResponseEntity<List<PaymentDto>> response = paymentClient.getAllPayments();
+         return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+    }
+
+    @GetMapping("/payment/{id}")
+    public ResponseEntity<PaymentDto> getSelectedPayments(@PathVariable Long id) {
 
          ResponseEntity<PaymentDto> response = paymentClient.fromPaymentId(id);
 
