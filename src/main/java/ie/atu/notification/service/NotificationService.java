@@ -12,8 +12,9 @@ import java.util.Optional;
 
 @Service
 public class NotificationService {
-
-     private final NotificationRepository repository;
+    
+    
+    private final NotificationRepository repository;
 
 
   private final  UserClient userClient;
@@ -31,6 +32,8 @@ public class NotificationService {
     public Optional<Notification> getById(Long id) {
         return repository.findById(id);
     }
+
+
     public Notification createNotification(Notification notification) {
 
         return repository.save(notification);
@@ -83,10 +86,5 @@ public class NotificationService {
 
 
 
-    /// Send welcome email
 
-
-    /// Send Payment Conformation email
-
-    /// ***Send item update email***
 }
