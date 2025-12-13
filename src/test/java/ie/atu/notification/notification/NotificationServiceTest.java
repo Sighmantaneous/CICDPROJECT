@@ -6,24 +6,18 @@ import ie.atu.notification.model.Notification;
 import ie.atu.notification.repository.NotificationRepository;
 import ie.atu.notification.service.EmailService;
 import ie.atu.notification.service.NotificationService;
-import org.aspectj.weaver.ast.Not;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
+
 import java.util.Optional;
 
-import static javax.management.Query.times;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -32,19 +26,13 @@ public class NotificationServiceTest {
     @Mock
     private NotificationRepository repository;
 
-    @Mock
-    private EmailService emailService;
-    @Mock
-    private UserClient userClient;
-    @Mock
-    private PaymentClient paymentClient;
     @InjectMocks
     private NotificationService service;
 
 
 
     @Test
-    void createNotificationAndGetById() {
+    void createNotificationAndGetByIdTest() {
         Notification notification = new Notification();
         notification.setId(1L);
         notification.setMessage("Hello World");
@@ -59,10 +47,14 @@ public class NotificationServiceTest {
 
 
         Optional<Notification> created = service.getById(1L);
+
         assertTrue(created.isPresent());
         assertEquals("Hello World", created.get().getMessage());
         assertEquals("Test Subject", created.get().getSubject());
         assertEquals("You@atu.ie", created.get().getToEmail());
+
+        verify(repository, times(1)).save(notification);
+        verify(repository, times(1)).findById(1L);
 
 
 
@@ -70,7 +62,7 @@ public class NotificationServiceTest {
     }
 
     @Test
-    void updateNotification() {
+    void updateNotificationTest() {
         Notification old = new Notification();
 
         old.setId(7L);
@@ -97,6 +89,26 @@ public class NotificationServiceTest {
         assertEquals("Updated Subject", result.get().getSubject());
         assertEquals("New@atu.ie", result.get().getToEmail());
 
+        verify(repository, times(1)).findById(7L);
+        verify(repository, times(1)).save(old);
+
+
+    }
+    @Test
+    void deleteTest(){
+        Notification notification = new Notification();
+        notification.setId(5L);
+        notification.setMessage("Hello World");
+        notification.setSubject("Test Subject");
+        notification.setToEmail("Past@atu.ie");
+
+        when(repository.findById(5L)).thenReturn(Optional.of(notification));
+        doNothing().when(repository).deleteById(5L);
+
+        service.delete(5L);
+
+        verify(repository, times(1)).findById(5L);
+        verify(repository, times(1)).deleteById(5L);
 
     }
 
