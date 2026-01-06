@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -35,14 +35,14 @@ public class NotificationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockitoBean
+    @MockBean
     private NotificationService notificationService;
 
-    @MockitoBean
+    @MockBean
     private UserClient userClient;
-    @MockitoBean
+    @MockBean
     private PaymentClient paymentClient;
-    @MockitoBean
+    @MockBean
     private EmailService emailService;
 
     @Test
@@ -97,8 +97,8 @@ public class NotificationControllerTest {
         mockMvc.perform(put("/api/notification/7")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(notification)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Updated Message"));
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.message").value("Updated Message"));
 
         verify(notificationService, times(1)).updateNotification(any(), any());
     }
