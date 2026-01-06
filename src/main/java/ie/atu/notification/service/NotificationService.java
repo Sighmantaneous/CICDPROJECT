@@ -1,5 +1,7 @@
 package ie.atu.notification.service;
 
+import ie.atu.notification.ExceptionHandling.DuplicateException;
+import ie.atu.notification.ExceptionHandling.NoNotificationException;
 import ie.atu.notification.client.PaymentClient;
 import ie.atu.notification.client.UserClient;
 import ie.atu.notification.dto.PaymentDto;
@@ -9,6 +11,8 @@ import ie.atu.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static org.springframework.util.ClassUtils.isPresent;
 
 @Service
 public class NotificationService {
@@ -35,16 +39,22 @@ public class NotificationService {
 
 
     public Notification createNotification(Notification notification) {
+      if(getById(notification.getId()).isPresent()) {
+          throw new DuplicateException("Notification with id " + notification.getId() + " already exists");
+      }
+
 
         return repository.save(notification);
     }
     public Optional<Notification> updateNotification(Long id, Notification updatedNotification) {
+
         return repository.findById(id).map(existing -> {
             existing.setToEmail(updatedNotification.getToEmail());
             existing.setSubject(updatedNotification.getSubject());
             existing.setMessage(updatedNotification.getMessage());
             return repository.save(existing);
-        });
+        }).or(() -> {throw new NoNotificationException("Notification with id " + id + " does not exist");});
+
     }
 
     public void delete(Long id) {

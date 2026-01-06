@@ -1,20 +1,13 @@
 package ie.atu.notification.notification;
 
-import ie.atu.notification.client.PaymentClient;
-import ie.atu.notification.client.UserClient;
 import ie.atu.notification.model.Notification;
 import ie.atu.notification.repository.NotificationRepository;
-import ie.atu.notification.service.EmailService;
 import ie.atu.notification.service.NotificationService;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-
 import java.util.Optional;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
